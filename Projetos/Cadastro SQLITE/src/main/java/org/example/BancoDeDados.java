@@ -107,4 +107,21 @@ public class BancoDeDados{
         Main.Pausar();
     }
 
+    public void PesquisarUserMed(String opt, String dado){
+        String query = null;
+        if(opt.equals("M")){
+            query = "SELECT * FROM Medicos WHERE nome LIKE '%"+dado+"%' OR email LIKE '%"+dado+"%'";
+        }else if(opt.equals("U")){
+            query = "SELECT * FROM Usuarios WHERE nome LIKE '%"+dado+"%' OR email LIKE '%"+dado+"%'";
+        }
+        List<Map<String, Object>> usuarios = executeDQL(query);
+        for (Map<String, Object> usuario : usuarios) {
+            int id = (Integer) usuario.get("id");
+            String nome = (String) usuario.get("nome");
+            String email = (String) usuario.get("email");
+            System.out.printf("ID: %d, Nome: %s e Email: %s\n", id, nome, email);
+        }
+        Main.Pausar();
+    }
+
 }

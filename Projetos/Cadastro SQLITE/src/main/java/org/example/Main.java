@@ -14,36 +14,50 @@ public class Main {
         while(true) {
             String opcao = null;
             Scanner scan = new Scanner(System.in);
-            int opt = -1;
+            String opt = null;
             System.out.println("Bem vindo ao Programa.");
             System.out.println("1 - Para cadastrar um usuário.");
             System.out.println("2 - Para cadastrar um Médico.");
             System.out.println("3 - Para listar todos os Usuários");
             System.out.println("4 - Para listar todos os Médicos");
             System.out.println("5 - Para atualizar um Medico/Usuário.");
+            System.out.println("6 - Para pesquisar Médico ou Usuário por Nome/Email.");
             System.out.print("Digite a opção desejada: ");
-            opt = scan.nextInt();
+            opt = scan.nextLine();
             BancoDeDados bd = new BancoDeDados();
-            //scan.close();
             switch (opt) {
-                case 1: {
+                case "1": {
                     CadastrarUsuario(bd);
                     break;
                 }
-                case 2: {
+                case "2": {
                     CadastrarMedico(bd);
                     break;
                 }
-                case 3: {
+                case "3": {
                     bd.ExibirUsuarios();
                     break;
                 }
-                case 4: {
+                case "4": {
                     bd.ExibirMedicos();
                     break;
                 }
-                case 5:{
+                case "5":{
                     AtualizarRegistro(bd);
+                    break;
+                }
+                case "6":{
+                    String option = null;
+                    do{
+                        System.out.print("Digite a opção que deseja pesquisar, M para Médico, U para Usuário e S para Sair: ");
+                        option = scan.nextLine();
+                    }while(!option.equals("M") && !option.equals("U") && !option.equals("S"));
+                    if(option.equals("S")){
+                        break;
+                    }
+                    System.out.print("Digite agora o Email ou Nome que deseja pesquisar: ");
+                    String dado = scan.nextLine();
+                    bd.PesquisarUserMed(option, dado);
                     break;
                 }
                 default: {
