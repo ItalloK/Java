@@ -40,7 +40,17 @@ public class BancoDeDados{
         try (Connection conn = DriverManager.getConnection(bancoUrl);
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
-            System.out.println("Cadastro Realizado");
+            System.out.println("Cadastro Realizado com Sucesso.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void AtualizarCadastro(String sql){
+        try (Connection conn = DriverManager.getConnection(bancoUrl);
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            System.out.println("Cadastro Atualizado com Sucesso.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

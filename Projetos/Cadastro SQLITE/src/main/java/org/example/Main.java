@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String args[]) {
         while(true) {
+            Pausar();
             LimparTela();
             String opcao = null;
             Scanner scan = new Scanner(System.in);
@@ -21,6 +22,7 @@ public class Main {
             System.out.println("2 - Para cadastrar um Médico.");
             System.out.println("3 - Para listar todos os Usuários");
             System.out.println("4 - Para listar todos os Médicos");
+            System.out.println("5 - Para atualizar um Medico/Usuário.");
             System.out.print("Digite a opção desejada: ");
             opt = scan.nextInt();
             BancoDeDados bd = new BancoDeDados();
@@ -40,6 +42,10 @@ public class Main {
                 }
                 case 4: {
                     ExibirMedicos(bd);
+                    break;
+                }
+                case 5:{
+                    AtualizarRegistro(bd);
                     break;
                 }
                 default: {
@@ -108,6 +114,53 @@ public class Main {
             System.out.printf("ID: %d, Nome: %s, CRM: %s, Telefone: %s, Emai: %s e Data de Nascimento %s\n", id, nome, crm, telefone, email, datanascimento);
         }
         Pausar();
+    }
+
+    private static void AtualizarRegistro(BancoDeDados bd){
+        LimparTela();
+        Scanner scan = new Scanner(System.in);
+        String opcao = null;
+        System.out.println("Qual você deseja atualizar? Medico ou Usuário? [M - para Médico, U - para Usuário ou S - para voltar para o Menu]");
+        System.out.print("Digite a opção desejada: ");
+        opcao = scan.nextLine();
+
+        if(opcao.equals("M")){
+            ExibirMedicos(bd);
+            System.out.print("Digite o ID do Médico que deseja atualizar: ");
+            String idMedicoStr = scan.nextLine();
+            int idMedico = Integer.parseInt(idMedicoStr);
+            String query = String.format("SELECT * FROM Medicos WHERE id = %d", idMedico);
+            List<Map<String, Object>> usuarios = bd.executeDQL(query);
+            String nome = null, crm = null, telefone = null, email = null, datanascimento = null;
+            int id = -1;
+            for (Map<String, Object> usuario : usuarios) {
+                id = (Integer) usuario.get("id");
+                nome = (String) usuario.get("nome");
+                crm = (String) usuario.get("crm");
+                telefone = (String) usuario.get("telefone");
+                email = (String) usuario.get("email");
+                datanascimento = (String) usuario.get("datanascimento");
+                System.out.printf("ID: %d, Nome: %s, CRM: %s, Telefone: %s, Email: %s e Data de Nascimento: %s\n", id, nome, crm, telefone, email, datanascimento);
+            }
+            String newNome = null, newCRM = null, newTelefone = null, newEmail = null, newDataNascimento = null;
+            System.out.print("Digite o novo Nome para o Médico: ");
+            newNome = scan.nextLine();
+            System.out.print("Digite o novo CRM para o Médico: ");
+            newCRM = scan.nextLine();
+            System.out.print("Digite o novo Telefone para o Médico: ");
+            newTelefone = scan.nextLine();
+            System.out.print("Digite o novo Email para o Médico: ");
+            newEmail = scan.nextLine();
+            System.out.print("Digite a nova Data de Nascimento para o Médico: ");
+            newDataNascimento = scan.nextLine();
+            newNome = newNome.equals("") ? nome : newNome;
+            newCRM = newCRM.equals("") ? crm : newCRM;
+            newTelefone = newTelefone.equals("") ? telefone : newTelefone;
+            newEmail = newEmail.equals("") ? email : newEmail;
+            newDataNascimento = newDataNascimento.equals("") ? datanascimento : newDataNascimento;
+            query = String.format("UPDATE Medicos SET nome = '%s', crm = '%s', telefone = '%s', email = '%s', datanascimento = '%s' WHERE id = %d", newNome, newCRM, newTelefone, newEmail, newDataNascimento, id);
+            bd.AtualizarCadastro(query);
+        }
     }
 
     private static void LimparTela(){
