@@ -79,5 +79,32 @@ public class BancoDeDados{
         return results;
     }
 
+    public void ExibirMedicos(){
+        String query = "SELECT * FROM Medicos";
+        List<Map<String, Object>> usuarios = executeDQL(query);
+        for (Map<String, Object> usuario : usuarios) {
+            int id = (Integer) usuario.get("id");
+            String nome = (String) usuario.get("nome");
+            String crm = (String) usuario.get("crm");
+            String telefone = (String) usuario.get("telefone");
+            String email = (String) usuario.get("email");
+            String datanascimento = (String) usuario.get("datanascimento");
+            System.out.printf("ID: %d, Nome: %s, CRM: %s, Telefone: %s, Emai: %s e Data de Nascimento %s\n", id, nome, crm, telefone, email, datanascimento);
+        }
+        Main.Pausar();
+    }
+
+    public void ExibirUsuarios(){
+        String query = "SELECT * FROM Usuarios";
+        List<Map<String, Object>> usuarios = executeDQL(query);
+        for (Map<String, Object> usuario : usuarios) {
+            int id = (Integer) usuario.get("id");
+            String nome = (String) usuario.get("nome");
+            String email = (String) usuario.get("email");
+            String telefone = (String) usuario.get("telefone");
+            System.out.printf("ID: %d, Nome: %s, Email: %s e Telefone: %s\n", id, nome, email, telefone);
+        }
+        Main.Pausar();
+    }
 
 }

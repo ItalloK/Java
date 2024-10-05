@@ -12,8 +12,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String args[]) {
         while(true) {
-            Pausar();
-            LimparTela();
             String opcao = null;
             Scanner scan = new Scanner(System.in);
             int opt = -1;
@@ -37,11 +35,11 @@ public class Main {
                     break;
                 }
                 case 3: {
-                    ExibirUsuarios(bd);
+                    bd.ExibirUsuarios();
                     break;
                 }
                 case 4: {
-                    ExibirMedicos(bd);
+                    bd.ExibirMedicos();
                     break;
                 }
                 case 5:{
@@ -86,36 +84,6 @@ public class Main {
         bd.CadastrarMedico(nome, crm, telefone, email, datanascimento);
     }
 
-    private static void ExibirUsuarios(BancoDeDados bd){
-        LimparTela();
-        String query = "SELECT * FROM Usuarios";
-        List<Map<String, Object>> usuarios = bd.executeDQL(query);
-        for (Map<String, Object> usuario : usuarios) {
-            int id = (Integer) usuario.get("id");
-            String nome = (String) usuario.get("nome");
-            String email = (String) usuario.get("email");
-            String telefone = (String) usuario.get("telefone");
-            System.out.printf("ID: %d, Nome: %s, Email: %s e Telefone: %s\n", id, nome, email, telefone);
-        }
-        Pausar();
-    }
-
-    private static void ExibirMedicos(BancoDeDados bd){
-        LimparTela();
-        String query = "SELECT * FROM Medicos";
-        List<Map<String, Object>> usuarios = bd.executeDQL(query);
-        for (Map<String, Object> usuario : usuarios) {
-            int id = (Integer) usuario.get("id");
-            String nome = (String) usuario.get("nome");
-            String crm = (String) usuario.get("crm");
-            String telefone = (String) usuario.get("telefone");
-            String email = (String) usuario.get("email");
-            String datanascimento = (String) usuario.get("datanascimento");
-            System.out.printf("ID: %d, Nome: %s, CRM: %s, Telefone: %s, Emai: %s e Data de Nascimento %s\n", id, nome, crm, telefone, email, datanascimento);
-        }
-        Pausar();
-    }
-
     private static void AtualizarRegistro(BancoDeDados bd){
         LimparTela();
         Scanner scan = new Scanner(System.in);
@@ -125,7 +93,7 @@ public class Main {
         opcao = scan.nextLine();
 
         if(opcao.equals("M")){
-            ExibirMedicos(bd);
+            bd.ExibirMedicos();
             System.out.print("Digite o ID do Médico que deseja atualizar: ");
             String idMedicoStr = scan.nextLine();
             int idMedico = Integer.parseInt(idMedicoStr);
@@ -163,13 +131,13 @@ public class Main {
         }
     }
 
-    private static void LimparTela(){
+    public static void LimparTela(){
         for(int i = 0; i<50; i++){
             System.out.printf("\n");
         }
     }
 
-    private static void Pausar(){
+    public static void Pausar(){
         System.out.printf("\nPressione Enter para continuar...");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
